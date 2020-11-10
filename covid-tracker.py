@@ -2,6 +2,7 @@
 import requests
 from tkinter import *
 import json
+from datetime import datetime
 
 root = Tk()
 
@@ -20,8 +21,13 @@ def clicked():
     print('Retrieving California covid statistics...')
     url = 'https://api.covidtracking.com/v1/states/CA/current.json?state=CA'
     data = requests.get(url)
+    current_date_str = str(data.json()['date'])
+    new_date = datetime.strptime(current_date_str, "%Y%m%d")
+    updated_date = datetime.strftime(new_date, "%B %d %y")
 
-    lbl.configure(text= 'Total positive cases on ' + str(data.json()['date']) + ': ' + str(data.json()['positive']))
+
+
+    lbl.configure(text= 'Total positive cases on ' + updated_date + ': ' + str(data.json()['positive']))
     lbl1.configure(text='Increase in positive cases from previous day: ' + str(data.json()['positiveIncrease']), fg='red',bg='white')
 
     lbl2.configure(text='Data Refreshed!', fg='white', bg='blue')
