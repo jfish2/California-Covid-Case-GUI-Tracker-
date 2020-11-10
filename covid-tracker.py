@@ -6,8 +6,8 @@ from datetime import datetime
 
 root = Tk()
 
-root.title('Covid-19 Tracker')
-root.geometry('220x70')
+root.title('Covid-19 Tracker - California')
+root.geometry('500x500')
 
 lbl = Label(root, text='Total positive cases...')
 lbl1 = Label(root, text='Positive test case increase from the previous day...')
@@ -23,11 +23,14 @@ def clicked():
     data = requests.get(url)
     current_date_str = str(data.json()['date'])
     new_date = datetime.strptime(current_date_str, "%Y%m%d")
-    updated_date = datetime.strftime(new_date, "%B %d %y")
+    updated_date = datetime.strftime(new_date, "%B %d, %Y")
+
+    total_cases = str(data.json()['positive'])
 
 
 
-    lbl.configure(text= 'Total positive cases on ' + updated_date + ': ' + str(data.json()['positive']))
+
+    lbl.configure(text= 'Total positive cases as of ' + updated_date + ': ' + total_cases)
     lbl1.configure(text='Increase in positive cases from previous day: ' + str(data.json()['positiveIncrease']), fg='red',bg='white')
 
     lbl2.configure(text='Data Refreshed!', fg='white', bg='blue')
